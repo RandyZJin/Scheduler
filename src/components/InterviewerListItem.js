@@ -9,13 +9,13 @@ export default function InterviewerListItem(props) {
     name: "Sylvia Palmer",
     avatar: "https://i.imgur.com/LpaY82x.png"
   };
-  
+
   const buttonClass = classNames("interviewers__item", {
     "interviewers__item--selected": props.selected,
   });
   //  onClick={()=>props.setInterviewer (interviewer.id)}
   return (
-    <li className={buttonClass} onClick={()=>props.setInterviewer (props.id)}>
+    <li className={buttonClass} onClick={()=>props.setInterviewer(props.id)}>
       <img
         className="interviewers__item-image"
         src={props.avatar}
