@@ -13,6 +13,10 @@ import InterviewerList from "components/InterviewerList";
 import Appointment from "components/Appointment/index.js";
 import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
+import Show from "components/Appointment/Show";
+import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
 
 storiesOf("DayListItem", module) //Initiates Storybook and registers our DayListItem component
   .addParameters({
@@ -150,7 +154,12 @@ storiesOf("Appointment", module)
   .add("Appointment at 12", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm" />)
   .add("Empty", () => <Empty onAdd={action("setTime")}/>)
+  .add("Show", () => <Show student="Lydia Miller" interviewer={interviewer} onEdit={action("Editting")} onDelete={action("Deleting")} />)
+  .add("Confirm", ()=> <Confirm message="Delete the Appointment?" onConfirm={action("Confirming")} onCancel={action("Cancelling")} />)
+  .add("Status", () => <Status message="Deleting" /> )
+  .add("Error", () => <Error message="Could not delete appointment" onClose={action("Closing")}  /> )
   ;
+
 
   // storiesOf("Empty", module)
   // .addParameters({
