@@ -12,13 +12,21 @@ export default function Appointment(props) {
   //    "button--danger": props.danger
   //  });
 
-   return (
+  return (
     <article className="appointment">
-      <Header time={props.time} />
+      {/* <Header time={props.time} />
       {props.interview && <Show interviewer={props.interview.interviewer} student={props.interview.student} />}
-      {!props.interview && <Empty />}
+      {!props.interview && <Empty />} */}
       {/* <Empty /> */}
+      <Fragment>
+        <Header time={props.time} />
+        {props.interview ?
+          <Show interviewer={props.interview.interviewer} student={props.interview.student} />
+          :
+          <Empty />
+        }
+      </Fragment>
     </article>
 
-   );
+  );
 }
