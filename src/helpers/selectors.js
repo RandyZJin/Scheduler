@@ -7,3 +7,16 @@ export function getAppointmentsForDay(state, day) {
   return selectedAppointments;
 
 }
+
+export function getInterview(state, interview) {
+  let selectedInterview = null;
+  if (interview) {
+    selectedInterview = interview;
+    for (let key in state.interviewers) {
+      if (selectedInterview.interviewer === state.interviewers[key].id) {
+        selectedInterview.interviewer = state.interviewers[key];
+      }
+    }
+  }
+  return selectedInterview;
+}
