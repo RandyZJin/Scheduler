@@ -47,8 +47,10 @@ export default function Appointment(props) {
           />
         )}
         {mode === CREATE && (
-
-          <Form interviewers={[]} onCancel={back}/>
+          <Form
+            interviewers={props.interviewerList}
+            onCancel={back}
+          />
         )}
 
       </Fragment>
