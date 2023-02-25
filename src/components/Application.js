@@ -4,7 +4,8 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
+// import useVisualMode from "hooks/useVisualMode";
 
 
 
@@ -30,7 +31,9 @@ export default function Application(props) {
 
   //   //... your code here ...
   // }
-  const appointments = getAppointmentsForDay(state, day);
+
+  //BOTTOM code causes issues
+  const appointments = getAppointmentsForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -105,14 +108,15 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {/* {appointmentsMapper(appointments)} */}
-        {dailyAppointments.map((appointment) => {
+        {/* {dailyAppointments.map((appointment) => {
           return <Appointment
             key={appointment.id}
             {...appointment}
 
           />
         }
-        )}
+        )} */}
+        {schedule}
         <Appointment key="last" time="5pm" />
 
       </section>
