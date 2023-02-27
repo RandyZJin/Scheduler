@@ -6,6 +6,7 @@ import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 // import useVisualMode from "hooks/useVisualMode";
+import useApplicationData from "hooks/useApplicationData";
 
 
 
@@ -13,73 +14,33 @@ export default function Application(props) {
   // const [currentDay, setCurrentDay] = useState('Monday');
   // const [days, setDays] = useState([]);
 
+  const {
+    state,
+    setState,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
 
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
-    appointments: {},
-    interviewers: {}
-  });
+
+  // const [setState] = useState({
+  //   day: "Monday",
+  //   days: [],
+  //   // you may put the line below, but will have to remove/comment hardcoded appointments variable
+  //   appointments: {},
+  //   interviewers: {}
+  // });
 
   // let dailyAppointments = [];
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
-  const setDay = day => setState({ ...state, day });
 
   // const setDays = (days) => {
   //   setState(prev => ({ ...prev, days }));
 
   //   //... your code here ...
   // }
-
-
-  function bookInterview(id, interview) {
-    // console.log(id, interview);
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    return axios
-      .put(`api/appointments/${id}`, appointment)
-      .then((res) => {
-        console.log(res)
-        setState(prev => ({ ...prev, appointments }));
-      })
-      // .catch((err) => console.log(err))
-
-
-  }
-
-  function cancelInterview(id) {
-    console.log(`deletion request`)
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios
-      .delete(`api/appointments/${id}`)
-      .then((res) => {
-        console.log(res)
-        setState(prev => ({ ...prev, id: appointments }));
-      })
-      // .catch((err) => console.log(err))
-
-  }
-
-
-
-
 
 
   const appointments = getAppointmentsForDay(state, state.day);
@@ -113,7 +74,6 @@ export default function Application(props) {
       axios.get('api/interviewers')
     ])
       .then((all) => {
-        console.log(state);
         setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
       })
       ;
@@ -134,7 +94,6 @@ export default function Application(props) {
   return (
     <main className="layout">
       <section className="sidebar">
-        {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
         <img
           className="sidebar--centered"
           src="images/logo.png"
