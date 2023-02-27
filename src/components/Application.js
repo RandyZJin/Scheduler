@@ -51,6 +51,8 @@ export default function Application(props) {
         console.log(res)
         setState(prev => ({ ...prev, appointments }));
       })
+      // .catch((err) => console.log(err))
+
 
   }
 
@@ -71,6 +73,7 @@ export default function Application(props) {
         console.log(res)
         setState(prev => ({ ...prev, id: appointments }));
       })
+      // .catch((err) => console.log(err))
 
   }
 
