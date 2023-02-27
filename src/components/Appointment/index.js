@@ -7,11 +7,47 @@ import Empty from "./Empty";
 import Show from "./Show";
 import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
+import Status from "./Status";
+import Confirm from "./Confirm";
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const CONFIRM = "ARE YOU SURE?"
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer: interviewer || 1
+    };
+    transition(SAVING);
+    props.bookInterview(props.id, interview)
+      .then(() => {
+
+        transition(SHOW);
+      })
+
+  }
+
+  function confirmDeletion() {
+    transition(CONFIRM);
+  }
+
+  function deleteInterview(id) {
+    console.log(id);
+    props.cancelInterview(id)
+      .then(() => {
+
+        transition(EMPTY);
+      })
+
+  }
+
+  function backToShow() {
+    transition(SHOW);
+  }
 
 
   const { mode, transition, back, setMode } = useVisualMode(
@@ -40,18 +76,37 @@ export default function Appointment(props) {
         } */}
         <Header time={props.time} />
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-        {mode === SHOW && (
+        {mode === SHOW && props.interview && (
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
+            onDelete={confirmDeletion}
+            id={props.id}
           />
         )}
         {mode === CREATE && (
           <Form
             interviewers={props.interviewerList}
             onCancel={back}
+            onSave={save}
+            bookInterview={props.bookInterview}
           />
         )}
+        {mode === SAVING && (
+          <Status
+            message={SAVING}
+          />
+        )}
+        {mode === CONFIRM && (
+          <Confirm
+            message={CONFIRM}
+            onCancel={back}
+            onConfirm={deleteInterview}
+            id={props.id}
+
+          />
+        )}
+
 
       </Fragment>
 

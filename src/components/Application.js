@@ -13,6 +13,8 @@ export default function Application(props) {
   // const [currentDay, setCurrentDay] = useState('Monday');
   // const [days, setDays] = useState([]);
 
+
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -32,7 +34,51 @@ export default function Application(props) {
   //   //... your code here ...
   // }
 
-  //BOTTOM code causes issues
+
+  function bookInterview(id, interview) {
+    // console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios
+      .put(`api/appointments/${id}`, appointment)
+      .then((res) => {
+        console.log(res)
+        setState(prev => ({ ...prev, appointments }));
+      })
+
+  }
+
+  function cancelInterview(id) {
+    console.log(`deletion request`)
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios
+      .delete(`api/appointments/${id}`)
+      .then((res) => {
+        console.log(res)
+        setState(prev => ({ ...prev, id: appointments }));
+      })
+
+  }
+
+
+
+
+
+
   const appointments = getAppointmentsForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {
@@ -45,6 +91,8 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewerList={getInterviewersForDay(state, state.day)}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
