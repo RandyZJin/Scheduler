@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 
 // export default function useVisualMode(mode) {
@@ -20,7 +19,7 @@ export default function useVisualMode(initial) {
           prevCopy.push(newState);
           return prevCopy;
       } else {
-        console.log(`prev 23 right now is ${prev}`);
+        console.log(`prev right now is ${prev}`);
 
         return [...prevCopy.slice(0, prev.length - 1), newState];
       }

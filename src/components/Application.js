@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 import "components/Application.scss";
@@ -33,7 +33,7 @@ export default function Application(props) {
   // });
 
   // let dailyAppointments = [];
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  // const dailyAppointments = getAppointmentsForDay(state, state.day);
 
 
   // const setDays = (days) => {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from "react";
+import { useState } from "react";
 
 
 export default function useApplicationData() {
@@ -71,7 +71,7 @@ export default function useApplicationData() {
     }
     return (replacementDays);
   }
-  
+
   return {
     state,
     setState,

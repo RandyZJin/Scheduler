@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
 import "components/Appointment/styles.scss";
-import classNames from "classnames";
+// import classNames from "classnames";
 import Header from "./Header";
 import Empty from "./Empty";
 import Show from "./Show";
@@ -54,12 +54,8 @@ export default function Appointment(props) {
 
   }
 
-  function backToShow() {
-    transition(SHOW);
-  }
 
-
-  const { mode, transition, back, setMode } = useVisualMode(
+  const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
