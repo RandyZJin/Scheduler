@@ -27,7 +27,7 @@ export default function useApplicationData() {
       .put(`api/appointments/${id}`, appointment)
       .then((res) => {
         console.log(res)
-        let newDays = spotsRemaining(state.day);
+        let newDays = spotsRemaining(state.day, id, { ...interview });
 
         setState(prev => ({ ...prev, days: newDays, appointments }));
       })
@@ -51,26 +51,33 @@ export default function useApplicationData() {
       .delete(`api/appointments/${id}`)
       .then((res) => {
         console.log(res);
-        let newDays = spotsRemaining(state.day);
+        let newDays = spotsRemaining(state.day, id, null);
         setState(prev => ({ ...prev, days: newDays, appointments }));
       })
     // .catch((err) => console.log(err))
 
   }
 
-  function spotsRemaining(currentDayName) {
-    let replacementDays = []
-    let replacementDay = {}
+  function spotsRemaining(currentDayName, appointmentID, interviewObj) {
+    let replacementDays = [];
+    let replacementDay = {};
+    let copyAppointments = state.appointments;
+    if (interviewObj === null) {
+      copyAppointments[appointmentID].interview = null;
+
+    } else {
+      copyAppointments[appointmentID].interview = interviewObj;
+    } 
     for (let eachDay of state.days) {
       if (currentDayName === eachDay.name) {
         let newSpots = 0;
         eachDay.appointments.map(x => {
-          if (state.appointments[x].interview === null) {
+          if (copyAppointments[x].interview === null) {
             newSpots++;
           }
         })
-        replacementDay = { ...eachDay, spots: newSpots }
-        replacementDays.push(replacementDay)
+        replacementDay = { ...eachDay, spots: newSpots };
+        replacementDays.push(replacementDay);
       } else {
         replacementDays.push(eachDay);
       }

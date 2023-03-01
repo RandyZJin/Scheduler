@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
-import { render, cleanup, fireEvent, prettyDOM, getByText, getAllByTestId, getByPlaceholderText, queryByText, getByAltText, queryByAltText } from "@testing-library/react";
+import { render, cleanup, fireEvent, prettyDOM, getByText, getAllByTestId, getByPlaceholderText, queryByText, getByAltText, queryByAltText  } from "@testing-library/react";
 import Application from "components/Application";
-import { waitForElement } from "@testing-library/react";
+import { waitForElement, waitForElementToBeRemoved } from "@testing-library/react";
 import { within } from '@testing-library/dom'
 
-
 afterEach(cleanup);
+
+
+
 
 xit("renders without crashing", () => {
   render(<Application />);
@@ -24,14 +26,16 @@ xit("renders without crashing", () => {
 
 
 describe("Application", () => {
+  afterEach(cleanup);
+
   xit("changes the schedule when a new day is selected", async () => {
-    const { getByText } = render(<Application />);
+    const { container} = render(<Application />);
 
-    await waitForElement(() => getByText("Monday"));
+    await waitForElement(() => getByText(container, "Monday"));
 
-    fireEvent.click(getByText("Tuesday"));
+    fireEvent.click(getByText(container, "Tuesday"));
 
-    expect(getByText("Leopold Silvers")).toBeInTheDocument();
+    expect(getByText(container, "Leopold Silvers")).toBeInTheDocument();
   });
 
   xit("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
@@ -67,7 +71,7 @@ describe("Application", () => {
 
 
 
-  });
+  }); // old test
   xit("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
     const { queryByText, getAllByTestId, getByText, getByPlaceholderText, getByAltText, container, debug } = render(<Application />);
 
@@ -110,7 +114,7 @@ describe("Application", () => {
 
     const spots = within(day).getByText('no spots remaining');
 
-  });
+  }); // old test
 
   xit("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
     const { container, debug, } = render(<Application />);
@@ -178,13 +182,13 @@ describe("Application", () => {
     await waitForElement(() => getByAltText(appointment, "Add"));
 
 
-    console.log(prettyDOM(appointment));
+    // console.log(prettyDOM(appointment));
 
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
     );
 
-    console.log(prettyDOM(day));
+    // console.log(prettyDOM(day));
 
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
 
@@ -195,8 +199,8 @@ describe("Application", () => {
     const { container } = render(<Application />);
 
 
-
     await waitForElement(() => getByText(container, "Archie Cohen"));
+    // console.log(prettyDOM(container))
 
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
@@ -237,6 +241,74 @@ describe("Application", () => {
     // expect(getByValue(appointment, "Archie Cohen")).toBeInTheDocument();
 
     // expect(getByText(appointment, "Tori Malcolm")).toBeInTheDocument();
+
+  });
+
+  it("shows the save error when failing to save an appointment", async () => {
+    axios.put.mockRejectedValueOnce();
+    const { container, debug } = render(<Application />);
+    
+    // await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    await waitForElement(() => getByText(container, "Bob Buttons"));
+    // console.log("this is from line 249")
+    // console.log(prettyDOM(container))
+    const appointments = getAllByTestId(container, "appointment");
+    const appointment = appointments[0];
+
+    fireEvent.click(getAllByTestId(appointment, "addButton")[0]);
+
+    await waitForElement(() => getByPlaceholderText(appointment, "name here"));
+
+    fireEvent.change(getByPlaceholderText(appointment, "name here"), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+
+    fireEvent.click(getByText(appointment, "Save"));
+    
+    await waitForElementToBeRemoved(() => queryByText(appointment, 'SAVING'))
+    
+    expect(getByText(appointment, "Appointment could not be booked")).toBeInTheDocument(); 
+    
+    fireEvent.click(getByAltText(appointment, "Close"));
+    
+
+
+    expect(getByText(appointment, "Save")).toBeInTheDocument();
+
+
+  });
+
+  xit("shows the delete error when failing to delete an existing appointment", async () => {
+    axios.delete.mockRejectedValueOnce();
+
+    const { container, debug } = render(<Application />);
+    
+    
+    
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    console.log(prettyDOM(container))
+    
+    
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+      );
+      
+      fireEvent.click(queryByAltText(appointment, "Delete"));
+      
+      fireEvent.click(queryByText(appointment, "Confirm"));
+
+      await waitForElementToBeRemoved(() => queryByText(appointment, 'DELETING'))
+
+      expect(getByText(appointment, "Appointment could not be cancelled")).toBeInTheDocument(); 
+
+      fireEvent.click(getByAltText(appointment, "Close"));
+
+      expect(getByText(appointment, "Archie Cohen")).toBeInTheDocument(); 
+
+      
 
   });
 
