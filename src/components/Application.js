@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+// import axios from "__mocks__/axios";
 
 import "components/Application.scss";
 import DayList from "./DayList";
@@ -69,9 +70,9 @@ export default function Application(props) {
     //     setDays(response.data);
     //   })
     Promise.all([
-      axios.get('api/days'),
-      axios.get('api/appointments'),
-      axios.get('api/interviewers')
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers')
     ])
       .then((all) => {
         setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
