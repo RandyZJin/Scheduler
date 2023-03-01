@@ -25,7 +25,7 @@ export default function Appointment(props) {
   function save(name, interviewer) {
     const interview = {
       student: name,
-      interviewer: interviewer || 1
+      interviewer: interviewer
     };
     transition(SAVING);
     props.bookInterview(props.id, interview)
