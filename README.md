@@ -3,9 +3,9 @@ Interview Scheduler is a single page application built using React that allows u
 
 ## Final Product
 
-!["screenshot of form"](https://github.com/SymphonicRain/Scheduler/tree/master/docs/Form.JPG)
-!["screenshot of main interface"](https://github.com/SymphonicRain/Scheduler/tree/master/docs/MainInterface.JPG)
-!["screenshot of code coverage"](https://github.com/SymphonicRain/Scheduler/tree/master/docs/SchedulerTestCoverage.JPG)
+!["screenshot of form"](https://github.com/SymphonicRain/Scheduler/blob/master/docs/Form.JPG)
+!["screenshot of main interface"](https://github.com/SymphonicRain/Scheduler/blob/master/docs/MainInterface.JPG)
+!["screenshot of code coverage"](https://github.com/SymphonicRain/Scheduler/blob/master/docs/SchedulerTestCoverage.JPG)
 
 ## Dependencies
 - axios
