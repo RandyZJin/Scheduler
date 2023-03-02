@@ -16,7 +16,6 @@ test("useVisualMode should transition to another mode", () => {
   const { result } = renderHook(() => useVisualMode(FIRST));
 
   act(() => result.current.transition(SECOND));
-  // console.log(result.all)
   expect(result.current.mode).toBe(SECOND);
 });
 

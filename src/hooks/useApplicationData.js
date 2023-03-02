@@ -15,20 +15,20 @@ export default function useApplicationData() {
   }
 
   function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    return axios
-      .put(`api/appointments/${id}`, appointment)
-      .then((res) => {
-        console.log(res)
-        let newDays = spotsRemaining(state.day, id, { ...interview });
 
+    return axios
+      .put(`api/appointments/${id}`, { interview })
+      .then((res) => {
+        const updatedInterview = JSON.parse(res.config.data).interview
+        const appointment = {
+          ...state.appointments[id],
+          interview: updatedInterview,
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment,
+        };
+        let newDays = updateSpots(state, appointments, id);
         setState(prev => ({ ...prev, days: newDays, appointments }));
       })
     // .catch((err) => console.log(err))
@@ -37,7 +37,6 @@ export default function useApplicationData() {
   }
 
   function cancelInterview(id) {
-    console.log(`deletion request`)
     const appointment = {
       ...state.appointments[id],
       interview: null,
@@ -51,39 +50,36 @@ export default function useApplicationData() {
       .delete(`api/appointments/${id}`)
       .then((res) => {
         console.log(res);
-        let newDays = spotsRemaining(state.day, id, null);
+        let newDays = updateSpots(state, appointments, id);
         setState(prev => ({ ...prev, days: newDays, appointments }));
       })
     // .catch((err) => console.log(err))
 
   }
 
-  function spotsRemaining(currentDayName, appointmentID, interviewObj) {
-    let replacementDays = [];
-    let replacementDay = {};
-    let copyAppointments = state.appointments;
-    if (interviewObj === null) {
-      copyAppointments[appointmentID].interview = null;
+  const updateSpots = function (state, appointments, id) {
 
-    } else {
-      copyAppointments[appointmentID].interview = interviewObj;
-    } 
-    for (let eachDay of state.days) {
-      if (currentDayName === eachDay.name) {
-        let newSpots = 0;
-        eachDay.appointments.map(x => {
-          if (copyAppointments[x].interview === null) {
-            newSpots++;
+    let copyState = state;
+    const affectedDay = { ...copyState.days.find(days => days.appointments.includes(id)) }
+    let returnDays = copyState.days.map(day => {
+
+      if (day.name === affectedDay.name) {
+        let spots = 0;
+        day.appointments.map(appointment => {
+          if (appointments[appointment].interview === null) {
+            spots++;
+            
           }
+          return null;
         })
-        replacementDay = { ...eachDay, spots: newSpots };
-        replacementDays.push(replacementDay);
-      } else {
-        replacementDays.push(eachDay);
+        affectedDay.spots = spots;
+        return affectedDay;
       }
-    }
-    return (replacementDays);
-  }
+      return day;
+
+    })
+    return returnDays;
+  };
 
   return {
     state,

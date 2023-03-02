@@ -14,14 +14,5 @@ describe("Appointment", () => {
     render(<Appointment />);
   });
 
-  it("does something it is supposed to do", () => {
-    // test code here...
-  });
-  
-  test("does something it is supposed to do", () => {
-    // test code here...
-  });
-  
-
 
 });
