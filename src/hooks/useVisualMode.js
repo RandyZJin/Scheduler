@@ -9,8 +9,8 @@ export default function useVisualMode(initial) {
     setHistory(prev => {
       let prevCopy = prev;
       if (!replace) {
-          prevCopy.push(newState);
-          return prevCopy;
+        prevCopy.push(newState);
+        return prevCopy;
       } else {
 
         return [...prevCopy.slice(0, prev.length - 1), newState];

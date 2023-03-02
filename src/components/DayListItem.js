@@ -20,20 +20,18 @@ export default function DayListItem(props) {
     } else {
       return <h3 className="text--light" >{spots} spots remaining</h3>;
     }
-    
+
   };
   return (
-    <li 
-    onClick={()=>setDay(dayName)
-    
-    } 
-    className={buttonClass}
-    data-testid="day"
-    
+    <li
+      onClick={() => setDay(dayName)
+      }
+      className={buttonClass}
+      data-testid="day"
+
     >
-      <h2 className="text--regular">{dayName}</h2> 
+      <h2 className="text--regular">{dayName}</h2>
       {formatSpots(`${numSpots}`)}
-      {/* <h3 className="text--light" >{numSpots} spots remaining</h3> */}
     </li>
   );
 }

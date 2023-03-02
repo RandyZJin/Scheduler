@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
-
 import "components/Appointment/styles.scss";
-// import classNames from "classnames";
 import Header from "./Header";
 import Empty from "./Empty";
 import Show from "./Show";
@@ -34,7 +32,6 @@ export default function Appointment(props) {
         transition(SHOW);
       })
       .catch(error => transition(ERROR_SAVE, true));
-
   }
 
   function confirmDeletion() {
@@ -42,12 +39,9 @@ export default function Appointment(props) {
   }
 
   function deleteInterview(id) {
-    // console.log(id);
     transition(DELETING, true);
-
     props.cancelInterview(id)
       .then(() => {
-
         transition(EMPTY);
       })
       .catch(error => transition(ERROR_DELETE, true));
@@ -60,28 +54,14 @@ export default function Appointment(props) {
   );
 
 
-  // const buttonClass = classNames("button", {
-  //    "button--confirm": props.confirm,
-  //    "button--danger": props.danger
-  //  });
 
   return (
-    <article 
-    className="appointment"
-    data-testid="appointment"
+    <article
+      className="appointment"
+      data-testid="appointment"
     >
-      {/* <Header time={props.time} />
-      {props.interview && <Show interviewer={props.interview.interviewer} student={props.interview.student} />}
-      {!props.interview && <Empty />} */}
-      {/* <Empty /> */}
+
       <Fragment>
-        {/* <Header time={props.time} />
-        {props.interview ?
-          <Show interviewer={props.interview.interviewer} student={props.interview.student} />
-          :
-          <Empty />
-          
-        } */}
         <Header time={props.time} />
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && props.interview && (
@@ -136,16 +116,13 @@ export default function Appointment(props) {
             onClose={back}
           />
         )}
-                {mode === ERROR_DELETE && (
+        {mode === ERROR_DELETE && (
           <Error
             message={ERROR_DELETE}
             onClose={back}
           />
         )}
-
-
       </Fragment>
-
     </article>
 
   );

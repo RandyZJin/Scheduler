@@ -29,7 +29,7 @@ export default function Form(props) {
     setError("");
     props.onSave(student, interviewer);
   }
-  
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -41,7 +41,7 @@ export default function Form(props) {
             placeholder="name here"
             value={student}
             onChange={(event) => setStudent(event.target.value)}
-            
+
             data-testid="student-name-input"
 
           />
@@ -50,10 +50,11 @@ export default function Form(props) {
 
         <InterviewerList
           interviewers={props.interviewers}
-          value = {interviewer}
+          value={interviewer}
           onChange={(value) => {
 
-            setInterviewer(value)}}
+            setInterviewer(value)
+          }}
 
         />
       </section>
@@ -61,10 +62,6 @@ export default function Form(props) {
         <section className="appointment__actions">
           <Button danger onClick={cancel} >Cancel</Button>
           <Button confirm onClick={validate} >Save</Button>
-          {/* <Button confirm onClick={()=>{
-            props.onSave(student, interviewer);
-            
-            }} >Save</Button> */}
         </section>
       </section>
     </main>

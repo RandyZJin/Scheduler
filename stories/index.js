@@ -154,13 +154,13 @@ storiesOf("Appointment", module)
   .add("Appointment", () => <Appointment />)
   .add("Appointment at 12", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm" />)
-  .add("Empty", () => <Empty onAdd={action("setTime")}/>)
+  .add("Empty", () => <Empty onAdd={action("setTime")} />)
   .add("Show", () => <Show student="Lydia Miller" interviewer={interviewer} onEdit={action("Editting")} onDelete={action("Deleting")} />)
-  .add("Confirm", ()=> <Confirm message="Delete the Appointment?" onConfirm={action("Confirming")} onCancel={action("Cancelling")} />)
-  .add("Status", () => <Status message="Deleting" /> )
-  .add("Error", () => <Error message="Could not delete appointment" onClose={action("Closing")}  /> )
-  .add("Edit",() => <Form student="Bob" interviewer={2} interviewers={interviewers} onSave={action("Saving")} onCancel={action("Cancelling")} />)
-  .add("Create",() => <Form interviewers={interviewers} onSave={action("Saving")} onCancel={action("Cancelling")} />)
+  .add("Confirm", () => <Confirm message="Delete the Appointment?" onConfirm={action("Confirming")} onCancel={action("Cancelling")} />)
+  .add("Status", () => <Status message="Deleting" />)
+  .add("Error", () => <Error message="Could not delete appointment" onClose={action("Closing")} />)
+  .add("Edit", () => <Form student="Bob" interviewer={2} interviewers={interviewers} onSave={action("Saving")} onCancel={action("Cancelling")} />)
+  .add("Create", () => <Form interviewers={interviewers} onSave={action("Saving")} onCancel={action("Cancelling")} />)
   .add("Appointment Empty", () => (
     <Fragment>
       <Appointment id={1} time="4pm" />
@@ -177,8 +177,8 @@ storiesOf("Appointment", module)
       <Appointment time="5pm" />
     </Fragment>
   ))
-  
-  
+
+
 
   ;
 

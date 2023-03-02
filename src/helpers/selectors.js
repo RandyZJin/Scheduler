@@ -21,10 +21,7 @@ export function getInterview(state, interview) {
   return selectedInterview;
 }
 
- export function getInterviewersForDay (state, day) {
-  /*
-  state.days f
-  */
+export function getInterviewersForDay(state, day) {
   let interviewerListForDay = [];
   for (let individualDays in state.days) {
     if (state.days[individualDays].name === day) {
